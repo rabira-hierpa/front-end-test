@@ -1,7 +1,15 @@
+<h1 style="text:center">Pairing Dev Front-end Test</h1>
 
-<h1 style="text:center">R.A.T Boilerplate</h1>
+<h3>
 
-## React Ant Design TailwindCSS boilerplate
+Assume instead of fetching a list of projects from Gitlab Endpoint, the frontend should only connect our backend(Middleware), and projects should be persistence in our database.
+How do you implement this logic in backend?
+
+ </h3>
+
+> To implement this logic in the backend, we can create an API endpoint in our middleware that will receive a POST request with project data from the frontend. The middleware will then take the project data and save it in our database.
+
+### Template used - [rat](https://github.com/rabira-hierpa/rat)
 
 ### Getting Started with Create React App
 
