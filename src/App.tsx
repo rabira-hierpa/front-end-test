@@ -1,12 +1,15 @@
-import Button  from "antd/es/button";
-import React from "react";
+import Button from "antd/es/button";
+import React, { useEffect, useState } from "react";
+import ProjectCard from "./components/project-card/project-card";
+import Projects from "./components/projects/projects";
+import AppLayout from "./layout/app-layout";
+import { IProject } from "./utils/types/project-types";
 
 function App() {
   return (
-    <div className="w-1/2 h-full flex flex-col justify-center space-x-5">
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
-      <Button>Rat!</Button>
-    </div>
+    <AppLayout>
+      <Projects />
+    </AppLayout>
   );
 }
 
