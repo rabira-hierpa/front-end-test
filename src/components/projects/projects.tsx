@@ -5,13 +5,14 @@ import ProjectCard from "../project-card/project-card";
 const Projects = () => {
   const [projects, setProjects] = useState<IProject[]>([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     setLoading(true);
-    fetch("https://gitlab.com/api/v4/projects")
+    fetch("https://gitlab.com/api/v4/projects?order_by=last_activity_at")
       .then((response) => {
         if (!response.ok) {
-          return Promise.reject(response);
+          throw new Error("Something went wrong");
         }
         return response.json();
       })
@@ -19,7 +20,7 @@ const Projects = () => {
         setProjects(data);
       })
       .catch((error) => {
-        console.log({ error });
+        setError(error.message);
       })
       .finally(() => {
         setLoading(false);
@@ -28,35 +29,62 @@ const Projects = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-full"> Loading </div>
+      <div
+        data-testid="loading-message"
+        className="flex justify-center items-center h-full"
+      >
+        Loading
+      </div>
     );
   }
+
+  if (error) {
+    return (
+      <div
+        data-testid="project-error-message"
+        className="flex justify-center items-center h-full"
+      >
+        {error}
+      </div>
+    );
+  }
+
   return (
-    <div className="flex flex-col px-20">
+    <div data-testid="projects" className="flex flex-col px-20">
       <div className="text-center py-5">
         <h1 className="text-3xl font-bold">Explore Projects</h1>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste,
-          veritatis?
+          Discover projects, groups and snippets. Share your projects with
+          others.
         </p>
       </div>
       <div className="flex justify-between py-5 ">
-        <div className="space-x-3 text-md">
+        <div className="hidden sm:block space-x-3 text-md">
           <span className="underline">All</span>
           <span>Most Starred</span>
           <span>Trending</span>
         </div>
-        <div className="space-x-3 text-md">
+        <div className="flex flex-col space-y-2  sm:flex-row sm:space-x-2 text-md">
           <input
             type="text"
             placeholder="Filter by name"
-            className="rounded-sm b-1"
+            className="rounded-sm border px-2"
           />
-          <select placeholder="Language">
+          <select
+            value=""
+            onChange={() => null}
+            placeholder="Language"
+            className="border p-2"
+          >
             <option value="English">English</option>
             <option value="Amharic">Amharic</option>
           </select>
-          <select placeholder="Update Date">
+          <select
+            value=""
+            onChange={() => null}
+            placeholder="Update Date"
+            className="border p-2"
+          >
             <option value="This week">This week</option>
             <option value="Last week">Last week</option>
           </select>
